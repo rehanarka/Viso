@@ -17,7 +17,16 @@ export default function Reports() {
   const today = new Date().toISOString().slice(0, 10);
   const todayRecords = useMemo(() => records.filter((record) => record.attendance_date === today), [records, today]);
   const faceRate = records.length ? Math.round((records.filter((record) => record.verification_method === "face").length / records.length) * 100) : 0;
-  const bars = [42, 56, 61, 48, 73, 88, 66, 77, 54, 69, 81, 72];
+  const trend = useMemo(() => {
+    const days = Array.from({ length: 7 }).map((_, index) => {
+      const date = new Date();
+      date.setDate(date.getDate() - (6 - index));
+      return date.toISOString().slice(0, 10);
+    });
+    const counts = days.map((date) => records.filter((record) => record.attendance_date === date).length);
+    const max = Math.max(...counts, 1);
+    return days.map((date, index) => ({ count: counts[index], date, height: Math.max(8, Math.round((counts[index] / max) * 100)) }));
+  }, [records]);
 
   useEffect(() => {
     void Promise.all([getEmployees(), getAttendanceRecords(), getDepartments()]).then(([employees, records, departments]) => { setEmployees(employees); setRecords(records); setDepartmentCount(departments.length); }).catch((error) => setError(error.message));
@@ -38,7 +47,7 @@ export default function Reports() {
           ))}
         </section>
         <section className="mt-6 grid gap-6 lg:grid-cols-[1.3fr_0.7fr]">
-          <div className="rounded-2xl border border-white/10 bg-card/80 p-5"><h2 className="text-lg font-bold text-white">Attendance trend</h2><p className="text-sm text-muted-foreground">Placeholder trend until enough daily records exist.</p><div className="mt-8 flex h-56 items-end gap-3">{bars.map((height, index) => <div className="flex-1 rounded-t-lg bg-[linear-gradient(180deg,#67e8f9,#34d399)] opacity-80" key={index} style={{ height: `${height}%` }} />)}</div></div>
+          <div className="rounded-2xl border border-white/10 bg-card/80 p-5"><h2 className="text-lg font-bold text-white">Attendance trend</h2><p className="text-sm text-muted-foreground">Saved attendance records from the last 7 days.</p><div className="mt-8 flex h-56 items-end gap-3">{trend.map((day) => <div className="flex-1 rounded-t-lg bg-[linear-gradient(180deg,#67e8f9,#34d399)] opacity-80" key={day.date} title={`${day.date}: ${day.count}`} style={{ height: `${day.height}%` }} />)}</div></div>
           <div className="rounded-2xl border border-white/10 bg-card/80 p-5"><h2 className="text-lg font-bold text-white">Verification mix</h2><div className="mt-5 space-y-4">{["face", "gps", "manual", "qr"].map((method) => { const count = records.filter((record) => record.verification_method === method).length; const percent = records.length ? Math.round((count / records.length) * 100) : 0; return <div key={method}><div className="mb-2 flex justify-between text-sm"><span className="capitalize text-zinc-200">{method}</span><span className="text-muted-foreground">{percent}%</span></div><div className="h-2 rounded-full bg-zinc-800"><div className="h-full rounded-full bg-emerald-300" style={{ width: `${percent}%` }} /></div></div>; })}</div></div>
         </section>
       </div>

@@ -31,12 +31,12 @@ export default function Login() {
     };
 
   return (
-    <main className="relative min-h-screen overflow-hidden bg-background text-foreground">
+    <main className="relative min-h-screen w-full max-w-[100vw] overflow-x-hidden bg-background text-foreground">
       <div className="absolute inset-0 bg-[linear-gradient(115deg,rgba(52,211,153,0.08),transparent_36%),radial-gradient(circle_at_80%_24%,rgba(20,184,166,0.12),transparent_26%)]" aria-hidden />
       <div className="absolute inset-0 opacity-15 [background-image:linear-gradient(rgba(63,63,70,0.32)_1px,transparent_1px),linear-gradient(90deg,rgba(63,63,70,0.28)_1px,transparent_1px)] [background-size:48px_48px]" aria-hidden />
-      <div className="relative mx-auto grid min-h-screen max-w-7xl items-center gap-10 px-5 py-10 sm:px-8 lg:grid-cols-12">
-        <motion.section className="hidden lg:col-span-7 lg:block" {...reveal}>
-          <div className="max-w-2xl">
+      <div className="relative mx-auto grid min-h-screen w-full max-w-7xl min-w-0 items-center gap-10 px-5 py-10 sm:px-8 lg:grid-cols-12">
+        <motion.section className="hidden min-w-0 lg:col-span-7 lg:block" {...reveal}>
+          <div className="max-w-2xl min-w-0">
             <p className="inline-flex items-center gap-2 rounded-full border border-border bg-[var(--surface-subtle)] px-3 py-1.5 text-sm font-medium text-emerald-200">
               <ShieldCheck className="h-4 w-4" />
               Secure operations console
@@ -50,8 +50,8 @@ export default function Login() {
           </div>
         </motion.section>
 
-        <motion.section className="mx-auto w-full max-w-md lg:col-span-5" {...reveal} transition={{ duration: 0.48, delay: 0.08, ease: "easeOut" }}>
-          <div className="rounded-xl border border-border bg-card p-6 sm:p-8">
+        <motion.section className="mx-auto w-full max-w-md min-w-0 lg:col-span-5" {...reveal} transition={{ duration: 0.48, delay: 0.08, ease: "easeOut" }}>
+          <div className="min-w-0 rounded-xl border border-border bg-card p-6 sm:p-8">
             <div className="mb-8">
               <div className="mb-5 grid h-12 w-12 place-items-center rounded-lg bg-emerald-300/10 text-emerald-200">
                 <Fingerprint className="h-6 w-6" />
@@ -86,7 +86,7 @@ export default function Login() {
                 <ArrowRight className="h-4 w-4" />
               </motion.button>
             </form>
-            {error && <p className="mt-4 text-center rounded-lg border border-red-400/20 bg-red-400/10 px-3 py-2 text-sm text-red-200">{error}</p>}
+            {error && <p className="mt-4 break-words rounded-lg border border-red-400/20 bg-red-400/10 px-3 py-2 text-center text-sm text-red-200">{error}</p>}
             <p className="mt-7 text-center text-sm text-muted-foreground">
               New to Viso? <Link className="font-medium text-emerald-200 hover:text-emerald-100" href="/Auth/Regist">Create workspace</Link>
             </p>

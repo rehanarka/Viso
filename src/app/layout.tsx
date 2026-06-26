@@ -17,7 +17,7 @@ const jetBrainsMono = JetBrains_Mono({
 export const metadata: Metadata = {
   title: "Viso | Precision Attendance Management",
   description:
-    "High-precision workforce presence infrastructure for modern operations.",
+    "Smart attendance management with face verification, GPS checks, and employee workflows.",
 };
 
 export const viewport: Viewport = {
@@ -38,7 +38,7 @@ export default function RootLayout({
       lang="en"
       className={`${jakartaSans.variable} ${jetBrainsMono.variable} dark h-full antialiased`}
     >
-      <body className="flex min-h-full w-full overflow-x-hidden">{children}</body>
+      <body className="flex min-h-full w-full min-w-0 overflow-x-hidden">{children}</body>
     </html>
   );
 }

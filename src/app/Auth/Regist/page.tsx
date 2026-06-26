@@ -41,9 +41,9 @@ export default function Regist() {
         }
     }
   return (
-    <main className="relative grid min-h-screen place-items-center overflow-hidden bg-background px-5 py-6 text-foreground">
+    <main className="relative grid min-h-screen w-full max-w-[100vw] place-items-center overflow-x-hidden bg-background px-5 py-6 text-foreground">
       <div className="absolute inset-0 bg-[linear-gradient(115deg,rgba(52,211,153,0.08),transparent_36%),radial-gradient(circle_at_80%_24%,rgba(20,184,166,0.12),transparent_26%)]" aria-hidden />
-      <motion.section className="relative w-full max-w-md rounded-xl border border-border bg-card p-4 sm:p-5" initial={shouldReduceMotion ? false : { opacity: 0, y: 18 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.48, ease: "easeOut" as const }}>
+      <motion.section className="relative w-full max-w-md min-w-0 rounded-xl border border-border bg-card p-4 sm:p-5" initial={shouldReduceMotion ? false : { opacity: 0, y: 18 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.48, ease: "easeOut" as const }}>
         <h1 className="text-2xl font-semibold tracking-[-0.025em] text-zinc-50">Create workspace</h1>
         <p className="mt-1 text-sm leading-6 text-muted-foreground">Start a Viso workspace for your operations team.</p>
         <form onSubmit={handleSubmit} className="mt-4 space-y-3">
@@ -87,7 +87,7 @@ export default function Regist() {
             <ArrowRight className="h-4 w-4" />
           </motion.button>
         </form>
-        {error && <p role="alert" className="mt-4 rounded-lg border border-red-400/20 bg-red-400/10 px-3 py-2 text-sm text-red-200">{error}</p>}
+        {error && <p role="alert" className="mt-4 break-words rounded-lg border border-red-400/20 bg-red-400/10 px-3 py-2 text-sm text-red-200">{error}</p>}
         <p className="mt-4 text-center text-sm text-muted-foreground">
           Already have an account? <Link className="font-medium text-emerald-200 hover:text-emerald-100" href="/Auth/Login">Sign in</Link>
         </p>

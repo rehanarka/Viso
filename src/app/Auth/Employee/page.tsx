@@ -49,9 +49,9 @@ export default function EmployeeActivation() {
   };
 
   return (
-    <main className="relative grid min-h-screen place-items-center overflow-hidden bg-background px-5 py-6 text-foreground">
+    <main className="relative grid min-h-screen w-full max-w-[100vw] place-items-center overflow-x-hidden bg-background px-5 py-6 text-foreground">
       <div className="absolute inset-0 bg-[linear-gradient(115deg,rgba(52,211,153,0.08),transparent_36%),radial-gradient(circle_at_80%_24%,rgba(20,184,166,0.12),transparent_26%)]" aria-hidden />
-      <motion.section className="relative w-full max-w-md rounded-xl border border-border bg-card p-5 sm:p-6" initial={shouldReduceMotion ? false : { opacity: 0, y: 18 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.42, ease: "easeOut" as const }}>
+      <motion.section className="relative w-full max-w-md min-w-0 rounded-xl border border-border bg-card p-5 sm:p-6" initial={shouldReduceMotion ? false : { opacity: 0, y: 18 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.42, ease: "easeOut" as const }}>
         <div className="mb-5 grid size-12 place-items-center rounded-lg bg-emerald-300/10 text-emerald-200">
           <UserRound className="size-6" />
         </div>
@@ -88,7 +88,7 @@ export default function EmployeeActivation() {
             </span>
           </label>
 
-          {error && <p className="rounded-lg border border-red-400/20 bg-red-400/10 px-3 py-2 text-sm text-red-200" role="alert">{error}</p>}
+          {error && <p className="break-words rounded-lg border border-red-400/20 bg-red-400/10 px-3 py-2 text-sm text-red-200" role="alert">{error}</p>}
 
           <motion.button className="inline-flex h-10 w-full items-center justify-center gap-2 rounded-lg bg-primary text-sm font-bold text-primary-foreground transition hover:bg-emerald-300 disabled:cursor-not-allowed disabled:opacity-70" disabled={isSubmitting} type="submit" whileHover={shouldReduceMotion || isSubmitting ? undefined : { y: -2 }} whileTap={shouldReduceMotion || isSubmitting ? undefined : { scale: 0.98 }}>
             {isSubmitting ? "Activating..." : "Activate account"}

@@ -6,7 +6,7 @@ import Link from "next/link";
 
 const bars = [40, 60, 30, 80, 45, 70, 95, 50, 20, 65, 55, 85];
 
-const navItems = ["Home", "How it Works", "Pricing", "Company"];
+const navItems = ["Home", "How it Works", "Company"];
 
 const dashboardHeights = [58, 86, 44, 72];
 
@@ -18,15 +18,15 @@ const chartLines = [1, 2, 3, 4, 5];
 
 const presenceRows = [{ name: "Maya R.", team: "North Gate", time: "08:59 AM", status: "Verified" }, { name: "Arif S.", team: "Field Ops", time: "09:03 AM", status: "Geo-lock" }, { name: "Nadia P.", team: "Warehouse", time: "09:05 AM", status: "Review" }];
 
-const trustTiles = [{ label: "Check-ins today", value: "12,842" }, { label: "Blocked anomalies", value: "317" }, { label: "Sites online", value: "48" }];
+const trustTiles = [{ label: "Team members", value: "24" }, { label: "Records today", value: "7" }, { label: "Needs review", value: "3" }];
 
-const footerColumns = [{ title: "Product", links: [{ label: "Features", href: "#features" }, { label: "API Docs", href: "#company" }, { label: "Pricing", href: "#pricing" }, { label: "Integrations", href: "#company" }] }, { title: "Company", links: [{ label: "About", href: "#company" }, { label: "Blog", href: "#company" }, { label: "Careers", href: "#company" }, { label: "Contact", href: "#pricing" }] }, { title: "Legal", links: [{ label: "Privacy Policy", href: "#pricing" }, { label: "Terms of Service", href: "#pricing" }, { label: "Cookie Policy", href: "#pricing" }] }];
+const footerColumns = [{ title: "Product", links: [{ label: "Face attendance", href: "#how-it-works" }, { label: "Geofence", href: "#how-it-works" }, { label: "Admin setup", href: "#company" }, { label: "Employee flow", href: "#company" }] }, { title: "Workspace", links: [{ label: "Create workspace", href: "/Auth/Regist" }, { label: "Sign in", href: "/Auth/Login" }, { label: "Employee activation", href: "/Auth/Employee" }] }];
 
-const geofenceChecks = ["3-meter precision radius via dual-band GPS.", "Instant background validation with zero battery drain.", "Offline-first sync for remote field operations."];
+const geofenceChecks = ["Set an office point and allowed radius from the company page.", "Reject attendance when GPS distance is outside the workspace radius.", "Keep manual attendance available for approved corrections."];
 
-const integrationFeatures = [{ icon: Code2, title: "Unified SDK", body: "iOS, Android, and Web support with a single authentication flow." }, { icon: Webhook, title: "Real-time Webhooks", body: "Receive presence events as they happen with sub-50ms latency." }];
+const integrationFeatures = [{ icon: Code2, title: "Admin setup", body: "Create departments, positions, shifts, and employee accounts from the admin console." }, { icon: Webhook, title: "AI service", body: "Use the separate FastAPI service for face detection, face registration, and recognition." }];
 
-const codeLines = ["const viso = require('@viso/sdk');", "", "async function authorizeCheckIn(userId, loc) {", "  const result = await viso.validate({", "    subject: userId,", "    geofence: loc.active_zone,", "    liveness: true", "  });", "", "  return result.verified ?", "    viso.logPresence(userId) : Error('Mismatch');", "}"];
+const workflowLines = ["Admin creates a workspace and office geofence.", "Departments, positions, and shifts are prepared.", "Employees activate accounts and register face samples.", "Attendance opens camera only when the employee starts presence.", "Viso checks face match and location before saving the record."];
 
 function SectionLabel({ children }: { children: React.ReactNode }) {
   return (
@@ -110,9 +110,7 @@ export default function Home() {
               <span className="text-emerald-300">workforce</span> presence.
             </h1>
             <p className="mt-7 max-w-md text-base leading-7 text-muted-foreground sm:text-lg">
-              A high-fidelity attendance infrastructure designed for
-              distributed teams, high-security facilities, and precision
-              operations.
+              A smart attendance system for teams that need employee records, face verification, GPS checks, shifts, and manual attendance in one workspace.
             </p>
             <div className="mt-9 flex flex-col gap-3 sm:flex-row">
               <motion.div whileHover={shouldReduceMotion ? undefined : { y: -2 }} whileTap={shouldReduceMotion ? undefined : { scale: 0.98 }}>
@@ -181,16 +179,13 @@ export default function Home() {
       <section className="relative w-full max-w-[100vw] overflow-hidden border-b border-border bg-[var(--surface-subtle)] px-5 py-24 text-center sm:px-8">
         <div className="absolute inset-x-8 top-0 h-px bg-gradient-to-r from-transparent via-emerald-300/35 to-transparent" aria-hidden />
         <motion.div className="mx-auto max-w-4xl" {...reveal()}>
-          <SectionLabel>Operational leakage</SectionLabel>
+          <SectionLabel>Why it exists</SectionLabel>
           <h2 className="mt-6 text-3xl font-semibold leading-tight tracking-[-0.025em] text-zinc-50 sm:text-5xl">
-            Legacy attendance systems fail to capture{" "}
-            <span className="text-muted-foreground">14% of labor productivity</span>{" "}
-            due to buddy punching and manual logging errors.
+            Attendance gets messy when employee data, face checks, location rules, and manual corrections live in different places.
           </h2>
           <div className="mx-auto my-10 h-px w-20 bg-emerald-300" aria-hidden />
           <p className="mx-auto max-w-2xl text-sm leading-6 text-muted-foreground sm:text-base">
-            Precision in workforce data is not just about payroll. It is about
-            understanding the velocity of your operations in real time.
+            Viso keeps the flow practical: admins prepare the workspace, employees verify presence, and every record stays traceable.
           </p>
         </motion.div>
       </section>
@@ -200,14 +195,12 @@ export default function Home() {
         <div className="absolute inset-0 bg-gradient-to-r from-background via-background/92 to-background/70" aria-hidden />
         <div className="relative mx-auto grid w-full max-w-7xl min-w-0 items-center gap-14 px-5 sm:px-8 lg:grid-cols-12">
           <motion.div className="min-w-0 lg:col-span-5" {...reveal()}>
-            <SectionLabel>Spatial intelligence</SectionLabel>
+            <SectionLabel>Location checks</SectionLabel>
             <h2 className="mt-4 text-4xl font-semibold tracking-[-0.025em] sm:text-5xl">
-              Adaptive Geofencing.
+              Geofence before attendance is saved.
             </h2>
             <p className="mt-7 max-w-lg text-base leading-7 text-muted-foreground">
-              Deploy virtual perimeters that adapt to the environment. Our
-              spatial engine ensures check-ins only happen where work actually
-              occurs.
+              Admins can set the workplace location from a map or manual coordinates. Employee presence is rejected when the detected distance is outside the allowed radius.
             </p>
             <ul className="mt-8 space-y-4">
               {geofenceChecks.map((item) => (
@@ -226,21 +219,21 @@ export default function Home() {
                 <div className="absolute left-5 top-5 space-y-3">
                   <div className="w-48 rounded border border-zinc-700 bg-background/95 p-4">
                     <div className="mb-2 text-xs font-medium text-muted-foreground">
-                      Zone Alpha
+                      Office radius
                     </div>
                     <div className="text-2xl font-semibold text-emerald-300">
-                      Active
+                      100m
                     </div>
                     <div className="mt-4 flex items-center gap-2">
                       <div className="h-1 flex-1 overflow-hidden rounded-full bg-zinc-700">
                         <div className="h-full w-[88%] bg-emerald-400" />
                       </div>
-                      <span className="text-[11px] font-semibold">88%</span>
+                      <span className="text-[11px] font-semibold">Set</span>
                     </div>
                   </div>
                   <div className="w-48 rounded border border-zinc-700 bg-background/95 p-4">
                     <div className="mb-3 text-xs font-medium text-muted-foreground">
-                      Signal Strength
+                      GPS check
                     </div>
                     <div className="flex gap-1">
                       {signalBars.map((item) => (
@@ -270,12 +263,11 @@ export default function Home() {
               <div className="mb-4 flex items-center gap-3">
                 <Fingerprint className="h-5 w-5 text-emerald-300" />
                 <h3 className="text-2xl font-medium tracking-[-0.01em]">
-                  Identity Layer
+                  Face layer
                 </h3>
               </div>
               <p className="mb-6 text-sm leading-6 text-muted-foreground">
-                Prevent identity fraud with 3D facial liveness detection that
-                works in under 200ms.
+                Employees register multiple face samples. Attendance uses the best match and rejects unknown faces.
               </p>
               <div className="space-y-3">
                 {identityRows.map((item) => (
@@ -291,12 +283,11 @@ export default function Home() {
               <div className="mb-4 flex items-center gap-3 text-muted-foreground">
                 <History className="h-5 w-5" />
                 <h3 className="text-2xl font-medium tracking-[-0.01em]">
-                  Immutable Logs
+                  Attendance history
                 </h3>
               </div>
               <p className="text-sm leading-6 text-muted-foreground">
-                Every action is cryptographically signed and stored on a
-                tamper-proof audit trail.
+                Face scans, GPS checks, and manual admin records appear in attendance history for review.
               </p>
             </motion.div>
           </motion.div>
@@ -306,10 +297,10 @@ export default function Home() {
               <div className="mb-12 flex flex-col gap-5 sm:flex-row sm:items-start sm:justify-between">
                 <div>
                   <p className="mb-3 text-sm font-medium text-muted-foreground">
-                    Operational Velocity
+                    Attendance activity
                   </p>
                   <h2 className="text-4xl font-semibold tracking-[-0.025em] sm:text-5xl">
-                    System Throughput
+                    Workspace overview
                   </h2>
                 </div>
                 <div className="flex gap-2">
@@ -332,9 +323,9 @@ export default function Home() {
                 ))}
               </div>
               <div className="mt-10 grid gap-4 sm:grid-cols-3">
-                <MetricCard label="Avg. Verification" value="184ms" />
-                <MetricCard label="Precision Rate" value="99.98%" />
-                <MetricCard accent label="Uptime" value="SLA 100" />
+                <MetricCard label="Face samples" value="3 per user" />
+                <MetricCard label="GPS rule" value="Radius based" />
+                <MetricCard accent label="Manual entry" value="Admin only" />
               </div>
             </div>
           </motion.div>
@@ -345,13 +336,11 @@ export default function Home() {
         <div className="mx-auto grid w-full max-w-7xl min-w-0 items-center gap-12 px-5 sm:px-8 lg:grid-cols-12">
           <motion.div className="min-w-0 lg:col-span-5" {...reveal()}>
             <h2 className="text-4xl font-semibold leading-tight tracking-[-0.025em] sm:text-5xl">
-              Built for <br />
-              <span className="font-mono text-emerald-300">engineers.</span>
+              Built around <br />
+              <span className="font-mono text-emerald-300">daily admin flow.</span>
             </h2>
             <p className="mt-7 max-w-lg text-base leading-7 text-muted-foreground">
-              Integrate Viso into your existing ERP or proprietary dashboard
-              with our clean, GraphQL-based API. Built for speed, reliability,
-              and security.
+              Start with company setup, add departments and employees, then let employees register their face and submit attendance from their own dashboard.
             </p>
             <div className="mt-10 space-y-7">
               {integrationFeatures.map((item) => (
@@ -378,16 +367,16 @@ export default function Home() {
                   <span className="h-3 w-3 rounded-full bg-zinc-700" aria-hidden />
                 </div>
                 <span className="text-xs font-semibold text-muted-foreground">
-                  verify_presence.js
+                  workspace_flow.txt
                 </span>
               </div>
               <div className="overflow-x-auto p-5 font-mono text-sm leading-7 sm:p-8">
-                {codeLines.map((line, index) => (
-                  <motion.div className="flex min-w-[520px] gap-5 rounded px-2 transition-colors hover:bg-emerald-400/5" key={`${line}-${index}`} initial={shouldReduceMotion ? false : { opacity: 0, x: -10 }} whileInView={{ opacity: 1, x: 0 }} viewport={{ once: true }} transition={{ duration: 0.24, delay: index * 0.025 }}>
+                {workflowLines.map((line, index) => (
+                  <motion.div className="flex min-w-[520px] gap-5 rounded px-2 transition-colors hover:bg-emerald-400/5" key={line} initial={shouldReduceMotion ? false : { opacity: 0, x: -10 }} whileInView={{ opacity: 1, x: 0 }} viewport={{ once: true }} transition={{ duration: 0.24, delay: index * 0.025 }}>
                     <span className="select-none text-zinc-700">
                       {String(index + 1).padStart(2, "0")}
                     </span>
-                    <span className="text-zinc-300">{line || "\u00a0"}</span>
+                    <span className="text-zinc-300">{line}</span>
                   </motion.div>
                 ))}
               </div>
@@ -399,7 +388,7 @@ export default function Home() {
       <section id="pricing" className="relative w-full max-w-[100vw] scroll-mt-16 overflow-hidden bg-card px-5 py-24 text-center sm:px-8 sm:py-32">
         <div className="absolute inset-x-0 top-0 h-px bg-gradient-to-r from-transparent via-emerald-300/40 to-transparent" aria-hidden />
         <motion.h2 className="mx-auto max-w-4xl text-3xl font-semibold tracking-[-0.025em] sm:text-5xl" {...reveal()}>
-          Ready to modernize your operations?
+          Ready to set up your workspace?
         </motion.h2>
         <motion.div className="mt-10 flex flex-col justify-center gap-4 sm:flex-row" {...reveal(0.08)}>
           <motion.div whileHover={shouldReduceMotion ? undefined : { y: -2 }} whileTap={shouldReduceMotion ? undefined : { scale: 0.98 }}>
@@ -414,7 +403,7 @@ export default function Home() {
           </motion.div>
         </motion.div>
         <motion.p className="mt-8 text-sm text-muted-foreground" {...reveal(0.14)}>
-          No credit card required. Up to 50 users free.
+          Create an admin workspace, then invite employees when your company data is ready.
         </motion.p>
       </section>
 
@@ -424,8 +413,7 @@ export default function Home() {
             <div>
               <div className="mb-5 text-lg font-bold">Viso</div>
               <p className="max-w-xs text-sm leading-6 text-muted-foreground">
-                High-precision workforce management infrastructure for modern
-                distributed organizations.
+                Smart attendance management with face verification, geofence checks, and admin controls.
               </p>
             </div>
             {footerColumns.map(({ title, links }) => (
