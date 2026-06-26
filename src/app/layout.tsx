@@ -1,4 +1,4 @@
-import type { Metadata } from "next";
+import type { Metadata, Viewport } from "next";
 import { JetBrains_Mono, Plus_Jakarta_Sans } from "next/font/google";
 import "./globals.css";
 
@@ -20,6 +20,14 @@ export const metadata: Metadata = {
     "High-precision workforce presence infrastructure for modern operations.",
 };
 
+export const viewport: Viewport = {
+  width: "device-width",
+  initialScale: 1,
+  maximumScale: 1,
+  userScalable: false,
+  themeColor: "#09090b",
+};
+
 export default function RootLayout({
   children,
 }: Readonly<{
@@ -30,7 +38,7 @@ export default function RootLayout({
       lang="en"
       className={`${jakartaSans.variable} ${jetBrainsMono.variable} dark h-full antialiased`}
     >
-      <body className="min-h-full flex flex-col">{children}</body>
+      <body className="flex min-h-full w-full overflow-x-hidden">{children}</body>
     </html>
   );
 }

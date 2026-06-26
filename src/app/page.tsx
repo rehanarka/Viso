@@ -2,6 +2,7 @@
 
 import { motion, useReducedMotion } from "framer-motion";
 import { CheckCircle2, Code2, Crosshair, Fingerprint, Globe2, History, ShieldCheck, Webhook } from "lucide-react";
+import Link from "next/link";
 
 const bars = [40, 60, 30, 80, 45, 70, 95, 50, 20, 65, 55, 85];
 
@@ -67,10 +68,10 @@ export default function Home() {
   });
 
   return (
-    <main className="min-h-screen bg-background text-foreground">
-      <nav className="fixed inset-x-0 top-0 z-50 border-b border-border bg-background/90 backdrop-blur-md">
-        <div className="mx-auto flex h-16 max-w-7xl items-center justify-between px-5 sm:px-8">
-          <a className="text-lg font-bold tracking-tight" href="#features">
+    <main className="w-full max-w-[100vw] overflow-x-hidden bg-background text-foreground">
+      <nav className="fixed inset-x-0 top-0 z-50 w-full max-w-[100vw] overflow-hidden border-b border-border bg-background/90 backdrop-blur-md">
+        <div className="mx-auto flex h-16 w-full max-w-7xl items-center justify-between px-5 sm:px-8">
+          <a className="text-lg font-bold tracking-tight" href="#home">
             Viso
           </a>
           <div className="hidden items-center gap-7 md:flex">
@@ -83,16 +84,21 @@ export default function Home() {
               </a>
             ))}
           </div>
-          <a className="inline-flex min-h-11 items-center rounded-lg bg-primary px-5 text-xs font-bold text-primary-foreground transition hover:bg-emerald-300" href="#pricing">
-            Get Started
-          </a>
+          <div className="flex items-center gap-2">
+            <Link className="hidden min-h-11 items-center rounded-lg border border-zinc-700 px-4 text-xs font-bold text-zinc-100 transition hover:bg-[var(--surface-subtle)] sm:inline-flex" href="/Auth/Login">
+              Sign in
+            </Link>
+            <Link className="inline-flex min-h-11 items-center rounded-lg bg-primary px-5 text-xs font-bold text-primary-foreground transition hover:bg-emerald-300" href="/Auth/Regist">
+              Get started
+            </Link>
+          </div>
         </div>
       </nav>
 
-      <section id="home" className="relative scroll-mt-16 overflow-hidden border-b border-border pt-28 sm:pt-32 lg:pt-28">
+      <section id="home" className="relative w-full max-w-[100vw] scroll-mt-16 overflow-hidden border-b border-border pt-28 sm:pt-32 lg:pt-28">
         <div className="absolute inset-x-0 top-16 h-px bg-emerald-300/30" aria-hidden />
-        <div className="relative mx-auto grid max-w-7xl gap-10 px-5 pb-14 sm:px-8 lg:grid-cols-12 lg:items-start lg:pb-16">
-          <motion.div className="z-10 max-w-xl lg:col-span-5" {...reveal()}>
+        <div className="relative mx-auto grid w-full max-w-7xl min-w-0 gap-10 px-5 pb-14 sm:px-8 lg:grid-cols-12 lg:items-start lg:pb-16">
+          <motion.div className="z-10 max-w-xl min-w-0 lg:col-span-5" {...reveal()}>
             <div className="mb-7 inline-flex items-center gap-2 rounded-full border border-border bg-[var(--surface-subtle)] px-3 py-1.5">
               <span className="h-2 w-2 rounded-full bg-emerald-300" aria-hidden />
               <span className="text-xs font-semibold text-emerald-200">
@@ -109,16 +115,20 @@ export default function Home() {
               operations.
             </p>
             <div className="mt-9 flex flex-col gap-3 sm:flex-row">
-              <motion.a className="inline-flex min-h-11 items-center justify-center rounded-lg bg-primary px-6 text-center text-sm font-bold text-primary-foreground transition hover:bg-emerald-300" href="#company" whileHover={shouldReduceMotion ? undefined : { y: -2 }} whileTap={shouldReduceMotion ? undefined : { scale: 0.98 }}>
-                Start Integrating
-              </motion.a>
-              <motion.a className="inline-flex min-h-11 items-center justify-center rounded-lg border border-zinc-700 bg-background px-6 text-center text-sm font-semibold text-zinc-100 transition hover:bg-[var(--surface-subtle)]" href="#pricing" whileHover={shouldReduceMotion ? undefined : { y: -2 }} whileTap={shouldReduceMotion ? undefined : { scale: 0.98 }}>
-                Book Demo
-              </motion.a>
+              <motion.div whileHover={shouldReduceMotion ? undefined : { y: -2 }} whileTap={shouldReduceMotion ? undefined : { scale: 0.98 }}>
+                <Link className="inline-flex min-h-11 items-center justify-center rounded-lg bg-primary px-6 text-center text-sm font-bold text-primary-foreground transition hover:bg-emerald-300" href="/Auth/Regist">
+                  Create workspace
+                </Link>
+              </motion.div>
+              <motion.div whileHover={shouldReduceMotion ? undefined : { y: -2 }} whileTap={shouldReduceMotion ? undefined : { scale: 0.98 }}>
+                <Link className="inline-flex min-h-11 items-center justify-center rounded-lg border border-zinc-700 bg-background px-6 text-center text-sm font-semibold text-zinc-100 transition hover:bg-[var(--surface-subtle)]" href="/Auth/Login">
+                  Sign in
+                </Link>
+              </motion.div>
             </div>
           </motion.div>
 
-          <motion.div className="relative min-h-[360px] lg:col-span-7" {...reveal(0.12)}>
+          <motion.div className="relative min-h-[360px] min-w-0 lg:col-span-7" {...reveal(0.12)}>
             <motion.div className="relative mx-auto w-full max-w-3xl overflow-hidden rounded-xl border border-emerald-300/20 bg-card shadow-[0_0_0_1px_rgba(52,211,153,0.04)]" whileHover={shouldReduceMotion ? undefined : { y: -4, borderColor: "rgba(110,231,183,0.35)" }} transition={{ duration: 0.25 }}>
               <div className="flex h-12 items-center gap-2 border-b border-border bg-[var(--surface-panel-high)] px-5">
                 <span className="h-3 w-3 rounded-full bg-red-300/25" aria-hidden />
@@ -168,7 +178,7 @@ export default function Home() {
         </div>
       </section>
 
-      <section className="relative overflow-hidden border-b border-border bg-[var(--surface-subtle)] px-5 py-24 text-center sm:px-8">
+      <section className="relative w-full max-w-[100vw] overflow-hidden border-b border-border bg-[var(--surface-subtle)] px-5 py-24 text-center sm:px-8">
         <div className="absolute inset-x-8 top-0 h-px bg-gradient-to-r from-transparent via-emerald-300/35 to-transparent" aria-hidden />
         <motion.div className="mx-auto max-w-4xl" {...reveal()}>
           <SectionLabel>Operational leakage</SectionLabel>
@@ -185,11 +195,11 @@ export default function Home() {
         </motion.div>
       </section>
 
-      <section id="how-it-works" className="relative scroll-mt-16 overflow-hidden border-b border-border py-24 sm:py-32">
+      <section id="how-it-works" className="relative w-full max-w-[100vw] scroll-mt-16 overflow-hidden border-b border-border py-24 sm:py-32">
         <div className="absolute inset-0 opacity-20 [background-image:linear-gradient(rgba(63,63,70,0.32)_1px,transparent_1px),linear-gradient(90deg,rgba(63,63,70,0.28)_1px,transparent_1px)] [background-size:48px_48px]" aria-hidden />
         <div className="absolute inset-0 bg-gradient-to-r from-background via-background/92 to-background/70" aria-hidden />
-        <div className="relative mx-auto grid max-w-7xl items-center gap-14 px-5 sm:px-8 lg:grid-cols-12">
-          <motion.div className="lg:col-span-5" {...reveal()}>
+        <div className="relative mx-auto grid w-full max-w-7xl min-w-0 items-center gap-14 px-5 sm:px-8 lg:grid-cols-12">
+          <motion.div className="min-w-0 lg:col-span-5" {...reveal()}>
             <SectionLabel>Spatial intelligence</SectionLabel>
             <h2 className="mt-4 text-4xl font-semibold tracking-[-0.025em] sm:text-5xl">
               Adaptive Geofencing.
@@ -208,11 +218,11 @@ export default function Home() {
               ))}
             </ul>
           </motion.div>
-          <motion.div className="lg:col-span-7" {...reveal(0.12)}>
+          <motion.div className="min-w-0 lg:col-span-7" {...reveal(0.12)}>
             <div className="rounded-xl border border-emerald-300/20 bg-[var(--surface-subtle)] p-2">
               <div className="relative aspect-video overflow-hidden rounded-lg bg-[var(--surface-panel-high)]">
                 <div className="absolute inset-0 bg-[linear-gradient(135deg,transparent_0_46%,rgba(63,63,70,0.55)_46%_47%,transparent_47%_100%)]" aria-hidden />
-                <motion.div className="absolute inset-y-0 w-24 bg-gradient-to-r from-transparent via-emerald-300/12 to-transparent" aria-hidden animate={shouldReduceMotion ? undefined : { x: ["-30%", "420%"] }} transition={{ duration: 4.8, repeat: Infinity, ease: "linear" }} />
+                <motion.div className="absolute inset-y-0 w-24 bg-gradient-to-r from-transparent via-emerald-300/12 to-transparent" aria-hidden animate={shouldReduceMotion ? undefined : { x: ["-100%", "320%"] }} transition={{ duration: 4.8, repeat: Infinity, ease: "linear" }} />
                 <div className="absolute left-5 top-5 space-y-3">
                   <div className="w-48 rounded border border-zinc-700 bg-background/95 p-4">
                     <div className="mb-2 text-xs font-medium text-muted-foreground">
@@ -253,9 +263,9 @@ export default function Home() {
         </div>
       </section>
 
-      <section className="border-b border-border bg-[var(--surface-panel)] py-24 sm:py-32">
-        <div className="mx-auto grid max-w-7xl gap-10 px-5 sm:px-8 lg:grid-cols-12">
-          <motion.div className="space-y-5 lg:col-span-4 lg:self-center" {...reveal()}>
+      <section className="w-full max-w-[100vw] overflow-hidden border-b border-border bg-[var(--surface-panel)] py-24 sm:py-32">
+        <div className="mx-auto grid w-full max-w-7xl min-w-0 gap-10 px-5 sm:px-8 lg:grid-cols-12">
+          <motion.div className="min-w-0 space-y-5 lg:col-span-4 lg:self-center" {...reveal()}>
             <motion.div className="rounded-xl border border-border bg-card p-6" whileHover={shouldReduceMotion ? undefined : { y: -3, borderColor: "rgba(110,231,183,0.28)" }}>
               <div className="mb-4 flex items-center gap-3">
                 <Fingerprint className="h-5 w-5 text-emerald-300" />
@@ -291,7 +301,7 @@ export default function Home() {
             </motion.div>
           </motion.div>
 
-          <motion.div className="lg:col-span-8" {...reveal(0.12)}>
+          <motion.div className="min-w-0 lg:col-span-8" {...reveal(0.12)}>
             <div className="rounded-xl border border-border bg-card p-5 sm:p-10">
               <div className="mb-12 flex flex-col gap-5 sm:flex-row sm:items-start sm:justify-between">
                 <div>
@@ -331,9 +341,9 @@ export default function Home() {
         </div>
       </section>
 
-      <section id="company" className="scroll-mt-16 border-b border-border bg-background py-24 sm:py-32">
-        <div className="mx-auto grid max-w-7xl items-center gap-12 px-5 sm:px-8 lg:grid-cols-12">
-          <motion.div className="lg:col-span-5" {...reveal()}>
+      <section id="company" className="w-full max-w-[100vw] scroll-mt-16 overflow-hidden border-b border-border bg-background py-24 sm:py-32">
+        <div className="mx-auto grid w-full max-w-7xl min-w-0 items-center gap-12 px-5 sm:px-8 lg:grid-cols-12">
+          <motion.div className="min-w-0 lg:col-span-5" {...reveal()}>
             <h2 className="text-4xl font-semibold leading-tight tracking-[-0.025em] sm:text-5xl">
               Built for <br />
               <span className="font-mono text-emerald-300">engineers.</span>
@@ -359,7 +369,7 @@ export default function Home() {
               ))}
             </div>
           </motion.div>
-          <motion.div className="lg:col-span-7" {...reveal(0.12)}>
+          <motion.div className="min-w-0 lg:col-span-7" {...reveal(0.12)}>
             <div className="overflow-hidden rounded-xl border border-border bg-[var(--surface-panel)]">
               <div className="flex items-center gap-4 border-b border-border bg-[var(--surface-panel-high)] px-5 py-4">
                 <div className="flex gap-1.5">
@@ -386,26 +396,30 @@ export default function Home() {
         </div>
       </section>
 
-      <section id="pricing" className="relative scroll-mt-16 overflow-hidden bg-card px-5 py-24 text-center sm:px-8 sm:py-32">
+      <section id="pricing" className="relative w-full max-w-[100vw] scroll-mt-16 overflow-hidden bg-card px-5 py-24 text-center sm:px-8 sm:py-32">
         <div className="absolute inset-x-0 top-0 h-px bg-gradient-to-r from-transparent via-emerald-300/40 to-transparent" aria-hidden />
         <motion.h2 className="mx-auto max-w-4xl text-3xl font-semibold tracking-[-0.025em] sm:text-5xl" {...reveal()}>
           Ready to modernize your operations?
         </motion.h2>
         <motion.div className="mt-10 flex flex-col justify-center gap-4 sm:flex-row" {...reveal(0.08)}>
-          <motion.a className="inline-flex min-h-12 items-center justify-center rounded-lg bg-primary px-8 text-sm font-bold text-primary-foreground transition hover:bg-emerald-300" href="#features" whileHover={shouldReduceMotion ? undefined : { y: -2 }} whileTap={shouldReduceMotion ? undefined : { scale: 0.98 }}>
-            Start Free Trial
-          </motion.a>
-          <motion.a className="inline-flex min-h-12 items-center justify-center rounded-lg border border-zinc-700 px-8 text-sm font-semibold text-zinc-100 transition hover:bg-[var(--surface-subtle)]" href="#company" whileHover={shouldReduceMotion ? undefined : { y: -2 }} whileTap={shouldReduceMotion ? undefined : { scale: 0.98 }}>
-            Talk to Sales
-          </motion.a>
+          <motion.div whileHover={shouldReduceMotion ? undefined : { y: -2 }} whileTap={shouldReduceMotion ? undefined : { scale: 0.98 }}>
+            <Link className="inline-flex min-h-12 items-center justify-center rounded-lg bg-primary px-8 text-sm font-bold text-primary-foreground transition hover:bg-emerald-300" href="/Auth/Regist">
+              Create workspace
+            </Link>
+          </motion.div>
+          <motion.div whileHover={shouldReduceMotion ? undefined : { y: -2 }} whileTap={shouldReduceMotion ? undefined : { scale: 0.98 }}>
+            <Link className="inline-flex min-h-12 items-center justify-center rounded-lg border border-zinc-700 px-8 text-sm font-semibold text-zinc-100 transition hover:bg-[var(--surface-subtle)]" href="/Auth/Login">
+              Sign in
+            </Link>
+          </motion.div>
         </motion.div>
         <motion.p className="mt-8 text-sm text-muted-foreground" {...reveal(0.14)}>
           No credit card required. Up to 50 users free.
         </motion.p>
       </section>
 
-      <footer className="border-t border-border bg-[var(--surface-subtle)] px-5 py-16 sm:px-8">
-        <div className="mx-auto max-w-7xl">
+      <footer className="w-full max-w-[100vw] overflow-hidden border-t border-border bg-[var(--surface-subtle)] px-5 py-16 sm:px-8">
+        <div className="mx-auto w-full max-w-7xl">
           <div className="grid gap-10 sm:grid-cols-2 lg:grid-cols-4">
             <div>
               <div className="mb-5 text-lg font-bold">Viso</div>
@@ -446,4 +460,3 @@ export default function Home() {
     </main>
   );
 }
-
