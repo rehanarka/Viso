@@ -3,14 +3,32 @@
 import { motion, useReducedMotion } from "framer-motion";
 import { ArrowRight, Fingerprint, LockKeyhole, Mail, ShieldCheck } from "lucide-react";
 import Link from "next/link";
-
-const loginStats = [{ label: "Sites online", value: "48" }, { label: "Precision", value: "99.98%" }, { label: "Avg verify", value: "184ms" }];
-
-const activityRows = [{ name: "Maya R.", site: "North Gate", time: "08:59" }, { name: "Arif S.", site: "Field Ops", time: "09:03" }, { name: "Nadia P.", site: "Warehouse", time: "09:05" }];
+import { useState } from "react";
+import { useRouter } from "next/navigation";
+import { getSignedInProfile, signIn } from "@/services/auth";
 
 export default function Login() {
-  const shouldReduceMotion = useReducedMotion();
-  const reveal = { initial: shouldReduceMotion ? false : { opacity: 0, y: 18 }, animate: { opacity: 1, y: 0 }, transition: { duration: 0.48, ease: "easeOut" as const } };
+    const shouldReduceMotion = useReducedMotion();
+    const reveal = { initial: shouldReduceMotion ? false : { opacity: 0, y: 18 }, animate: { opacity: 1, y: 0 }, transition: { duration: 0.48, ease: "easeOut" as const } };
+
+    const router = useRouter();
+    const [email, setEmail] = useState("");
+    const [password, setPassword] = useState("");
+    const [error, setError] = useState<string | null>(null);
+
+    const handleSubmit = async (e: React.FormEvent) => {
+        e.preventDefault();
+        setError(null);
+        try {
+            const { data, error } = await signIn(email, password);
+            if (error) throw error;
+            const profile = await getSignedInProfile();
+            router.push(profile?.role === "employee" ? "/Employee/Dashboard" : "/Admin/Dashboard");
+
+        } catch (error) {
+            setError(error instanceof Error ? error.message : "Login Failed");
+        }
+    };
 
   return (
     <main className="relative min-h-screen overflow-hidden bg-background text-foreground">
@@ -41,19 +59,19 @@ export default function Login() {
               <h2 className="text-3xl font-semibold tracking-[-0.025em] text-zinc-50">Welcome back</h2>
               <p className="mt-3 text-sm leading-6 text-muted-foreground">Use your Viso workspace credentials to continue.</p>
             </div>
-            <form className="space-y-5">
+            <form onSubmit={handleSubmit} className="space-y-5">
               <label className="block">
                 <span className="mb-2 block text-sm font-medium text-zinc-200">Email</span>
                 <span className="relative block">
                   <Mail className="pointer-events-none absolute left-3 top-1/2 h-4 w-4 -translate-y-1/2 text-muted-foreground" />
-                  <input className="h-12 w-full rounded-lg border border-input bg-background px-10 text-sm text-zinc-50 outline-none transition placeholder:text-zinc-500 focus:border-emerald-300" placeholder="you@company.com" type="email" />
+                  <input value={email} onChange = {(e) => setEmail(e.target.value)} className="h-12 w-full rounded-lg border border-input bg-background px-10 text-sm text-zinc-50 outline-none transition placeholder:text-zinc-500 focus:border-emerald-300" placeholder="you@company.com" type="email" />
                 </span>
               </label>
               <label className="block">
                 <span className="mb-2 block text-sm font-medium text-zinc-200">Password</span>
                 <span className="relative block">
                   <LockKeyhole className="pointer-events-none absolute left-3 top-1/2 h-4 w-4 -translate-y-1/2 text-muted-foreground" />
-                  <input className="h-12 w-full rounded-lg border border-input bg-background px-10 text-sm text-zinc-50 outline-none transition placeholder:text-zinc-500 focus:border-emerald-300" placeholder="Enter password" type="password" />
+                  <input value={password} onChange = {(e) => setPassword(e.target.value)} className="h-12 w-full rounded-lg border border-input bg-background px-10 text-sm text-zinc-50 outline-none transition placeholder:text-zinc-500 focus:border-emerald-300" placeholder="Enter password" type="password" />
                 </span>
               </label>
               <div className="flex items-center justify-between text-sm">
@@ -63,13 +81,17 @@ export default function Login() {
                 </label>
                 <a className="font-medium text-emerald-200 hover:text-emerald-100" href="#">Forgot password?</a>
               </div>
-              <motion.button className="inline-flex h-12 w-full items-center justify-center gap-2 rounded-lg bg-primary text-sm font-bold text-primary-foreground transition hover:bg-emerald-300" type="button" whileHover={shouldReduceMotion ? undefined : { y: -2 }} whileTap={shouldReduceMotion ? undefined : { scale: 0.98 }}>
+              <motion.button type="submit" className="inline-flex h-12 w-full items-center justify-center gap-2 rounded-lg bg-primary text-sm font-bold text-primary-foreground transition hover:bg-emerald-300" whileHover={shouldReduceMotion ? undefined : { y: -2 }} whileTap={shouldReduceMotion ? undefined : { scale: 0.98 }}>
                 Sign in
                 <ArrowRight className="h-4 w-4" />
               </motion.button>
             </form>
+            {error && <p className="mt-4 text-center rounded-lg border border-red-400/20 bg-red-400/10 px-3 py-2 text-sm text-red-200">{error}</p>}
             <p className="mt-7 text-center text-sm text-muted-foreground">
               New to Viso? <Link className="font-medium text-emerald-200 hover:text-emerald-100" href="/Auth/Regist">Create workspace</Link>
+            </p>
+            <p className="mt-3 text-center text-sm text-muted-foreground">
+              Invited employee? <Link className="font-medium text-emerald-200 hover:text-emerald-100" href="/Auth/Employee">Activate account</Link>
             </p>
           </div>
         </motion.section>

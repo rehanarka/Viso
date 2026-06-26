@@ -133,6 +133,30 @@
   html {
     @apply font-sans;
     scroll-behavior: smooth;
+    scrollbar-color: rgba(52, 211, 153, 0.42) #09090b;
+    scrollbar-width: thin;
+  }
+  body {
+    scrollbar-gutter: stable;
+  }
+  ::-webkit-scrollbar {
+    width: 10px;
+    height: 10px;
+  }
+  ::-webkit-scrollbar-track {
+    background: #09090b;
+  }
+  ::-webkit-scrollbar-thumb {
+    min-height: 44px;
+    border: 3px solid #09090b;
+    border-radius: 999px;
+    background: rgba(52, 211, 153, 0.42);
+  }
+  ::-webkit-scrollbar-thumb:hover {
+    background: rgba(94, 234, 212, 0.68);
+  }
+  ::-webkit-scrollbar-corner {
+    background: #09090b;
   }
   h1,
   h2,
@@ -155,5 +179,14 @@
       animation-duration: 1ms !important;
       animation-iteration-count: 1 !important;
     }
+  }
+}
+
+@layer utilities {
+  .no-scrollbar {
+    scrollbar-width: none;
+  }
+  .no-scrollbar::-webkit-scrollbar {
+    display: none;
   }
 }
