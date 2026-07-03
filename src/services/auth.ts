@@ -6,12 +6,7 @@ export type SignedInProfile = {
   role: "admin" | "manager" | "employee";
 };
 
-export async function signUp(
-  email: string,
-  password: string,
-  fullName: string,
-  company: string
-) {
+export async function signUp(email: string, password: string, fullName: string, company: string) {
   const { data, error } = await supabase.auth.signUp({
     email,
     password,
