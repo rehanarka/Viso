@@ -18,6 +18,15 @@ NEXT_PUBLIC_SUPABASE_ANON_KEY=your_supabase_anon_key
 NEXT_PUBLIC_VISO_AI_URL=http://127.0.0.1:8000
 ```
 
+Optional Vercel keepalive env:
+
+```env
+SUPABASE_SERVICE_ROLE_KEY=your_server_only_service_role_key
+CRON_SECRET=your_random_cron_secret
+```
+
+The keepalive route is `/api/keepalive`. Vercel Cron calls it daily from `vercel.json` so Supabase receives a lightweight database query.
+
 ## AI Service
 
 ```bash
