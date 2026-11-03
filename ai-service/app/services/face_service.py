@@ -28,7 +28,7 @@ class FaceService:
             name=self.settings.insightface_model_name,
             providers=self.settings.insightface_providers,
         )
-        self.model.prepare(ctx_id=0, det_size=(640, 640))
+        self.model.prepare(ctx_id=-1, det_size=(640, 640))
 
     def detect_faces(self, image: np.ndarray) -> List[Any]:
         self.load_model()

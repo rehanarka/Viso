@@ -21,6 +21,9 @@ RUN pip install --no-cache-dir --upgrade pip && pip install --no-cache-dir -r re
 
 COPY --chown=user app ./app
 
+RUN python -c "import cv2, numpy, onnxruntime, insightface; print('CV stack import OK')" \
+    && python -c "from insightface.app import FaceAnalysis; FaceAnalysis(name='buffalo_l', providers=['CPUExecutionProvider']).prepare(ctx_id=-1, det_size=(640, 640))"
+
 EXPOSE 7860
 
 CMD ["uvicorn", "app.main:app", "--host", "0.0.0.0", "--port", "7860"]
