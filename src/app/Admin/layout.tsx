@@ -14,7 +14,7 @@ import {
   Users,
 } from "lucide-react";
 import Link from "next/link";
-import { usePathname } from "next/navigation";
+import { usePathname, useRouter } from "next/navigation";
 
 import {
   Sidebar,
@@ -33,6 +33,7 @@ import {
   SidebarTrigger,
 } from "@/components/ui/sidebar";
 import { TooltipProvider } from "@/components/ui/tooltip";
+import { signOut } from "@/services/auth";
 
 const mainItems = [
   { title: "Dashboard", href: "/Admin/Dashboard", icon: LayoutDashboard },
@@ -92,6 +93,12 @@ function SidebarLink({
 
 export default function AdminLayout({ children }: { children: React.ReactNode }) {
   const pathname = usePathname();
+  const router = useRouter();
+
+  async function handleLogout() {
+    await signOut();
+    router.push("/Auth/Login");
+  }
 
   return (
     <TooltipProvider>
@@ -160,10 +167,10 @@ export default function AdminLayout({ children }: { children: React.ReactNode })
                   tooltip="Logout"
                   className="h-10 justify-start rounded-xl px-3 text-sidebar-foreground/70 hover:bg-red-400/10 hover:text-red-200 group-data-[collapsible=icon]:mx-auto group-data-[collapsible=icon]:size-10 group-data-[collapsible=icon]:justify-center group-data-[collapsible=icon]:px-0"
                 >
-                  <Link href="/Auth/Login">
+                  <button onClick={() => void handleLogout()} type="button">
                     <LogOut className="size-4" />
                     <span className="font-medium">Logout</span>
-                  </Link>
+                  </button>
                 </SidebarMenuButton>
               </SidebarMenuItem>
             </SidebarMenu>

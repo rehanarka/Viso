@@ -17,9 +17,11 @@ export default function Regist() {
     const [password, setPassword] = useState("");
     const [confirmPassword, setConfirmPassword] = useState("");
     const [error, setError] = useState<string | null>(null);
+    const [isSubmitting, setIsSubmitting] = useState(false);
 
     const handleSubmit = async (e: React.FormEvent) => {
         e.preventDefault();
+        if (isSubmitting) return;
         setError(null);
         if (!fullName.trim() || !email.trim() || !company.trim()) {
             setError("Isi semua data workspace dulu");
@@ -33,11 +35,14 @@ export default function Regist() {
             setError("Passwords do not match");
             return;
         }
+        setIsSubmitting(true);
         try {
             await signUp(email, password, fullName, company);
             router.push("/Auth/Login");
         } catch (error: unknown) {
             setError(error instanceof Error ? error.message : "Registrasi gagal");
+        } finally {
+            setIsSubmitting(false);
         }
     }
   return (
@@ -82,8 +87,8 @@ export default function Regist() {
               <input value={confirmPassword} onChange={(e) => setConfirmPassword(e.target.value)} minLength={6} required className="h-10 w-full rounded-lg border border-input bg-background px-10 text-sm text-zinc-50 outline-none transition placeholder:text-zinc-500 focus:border-emerald-300" placeholder="Repeat password" type="password" />
             </span>
           </label>
-          <motion.button type="submit" className="inline-flex h-10 w-full items-center justify-center gap-2 rounded-lg bg-primary text-sm font-bold text-primary-foreground transition hover:bg-emerald-300" whileHover={shouldReduceMotion ? undefined : { y: -2 }} whileTap={shouldReduceMotion ? undefined : { scale: 0.98 }}>
-            Create account
+          <motion.button type="submit" disabled={isSubmitting} className="inline-flex h-10 w-full items-center justify-center gap-2 rounded-lg bg-primary text-sm font-bold text-primary-foreground transition hover:bg-emerald-300 disabled:cursor-not-allowed disabled:opacity-60" whileHover={shouldReduceMotion ? undefined : { y: -2 }} whileTap={shouldReduceMotion ? undefined : { scale: 0.98 }}>
+            {isSubmitting ? "Creating account..." : "Create account"}
             <ArrowRight className="h-4 w-4" />
           </motion.button>
         </form>

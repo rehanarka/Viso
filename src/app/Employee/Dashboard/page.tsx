@@ -71,6 +71,7 @@ export default function EmployeeDashboard() {
   const shouldReduceMotion = useReducedMotion();
   const videoRef = useRef<HTMLVideoElement | null>(null);
   const streamRef = useRef<MediaStream | null>(null);
+  const cameraRequestRef = useRef(0);
   const [workspace, setWorkspace] = useState<EmployeeWorkspace | null>(null);
   const [error, setError] = useState("");
   const [modalError, setModalError] = useState("");
@@ -106,24 +107,37 @@ export default function EmployeeDashboard() {
 
   async function startCamera() {
     setModalError("");
+    const requestId = cameraRequestRef.current + 1;
+    cameraRequestRef.current = requestId;
 
     try {
       setCameraState("idle");
       const mediaStream = await navigator.mediaDevices?.getUserMedia({ video: { facingMode: "user" }, audio: false });
+
+      if (requestId !== cameraRequestRef.current) {
+        mediaStream?.getTracks().forEach((track) => track.stop());
+        return;
+      }
+
       if (!mediaStream) throw new Error("Camera is not supported by this browser.");
+
+      streamRef.current?.getTracks().forEach((track) => track.stop());
       streamRef.current = mediaStream;
       window.requestAnimationFrame(() => {
+        if (requestId !== cameraRequestRef.current) return;
         if (videoRef.current) videoRef.current.srcObject = mediaStream;
       });
       setCameraState("ready");
       setPresenceState("Camera ready. Register your face or continue with attendance verification.");
     } catch (error) {
+      if (requestId !== cameraRequestRef.current) return;
       setCameraState("blocked");
       setModalError(error instanceof Error ? error.message : "Camera permission was blocked. Allow camera access before using face attendance.");
     }
   }
 
   function stopCamera() {
+    cameraRequestRef.current += 1;
     streamRef.current?.getTracks().forEach((track) => track.stop());
     streamRef.current = null;
     if (videoRef.current) videoRef.current.srcObject = null;
@@ -136,6 +150,7 @@ export default function EmployeeDashboard() {
 
   async function handleRegisterFace() {
     setError("");
+    setModalError("");
     setIsProcessing(true);
 
     try {
@@ -161,7 +176,7 @@ export default function EmployeeDashboard() {
       setPresenceState(`${samples.length} face samples registered. You can now check in with stronger verification.`);
       setPresenceModalOpen(false);
     } catch (error) {
-      setError(error instanceof Error ? error.message : "Face registration failed.");
+      setModalError(error instanceof Error ? error.message : "Face registration failed.");
     } finally {
       setSampleProgress("");
       setIsProcessing(false);
@@ -170,6 +185,7 @@ export default function EmployeeDashboard() {
 
   async function handlePresence(type: "check_in" | "check_out") {
     setError("");
+    setModalError("");
     setIsProcessing(true);
 
     try {
@@ -215,7 +231,7 @@ export default function EmployeeDashboard() {
       setPresenceState(`${type === "check_in" ? "Check-in" : "Check-out"} accepted. Face and location verified.`);
       setPresenceModalOpen(false);
     } catch (error) {
-      setError(error instanceof Error ? error.message : "Attendance rejected.");
+      setModalError(error instanceof Error ? error.message : "Attendance rejected.");
     } finally {
       setIsProcessing(false);
     }

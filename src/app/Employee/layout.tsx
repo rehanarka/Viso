@@ -2,11 +2,12 @@
 
 import { Building2, Camera, Clock3, LayoutDashboard, LogOut, ShieldCheck, UserRound, UsersRound } from "lucide-react";
 import Link from "next/link";
-import { usePathname } from "next/navigation";
+import { usePathname, useRouter } from "next/navigation";
 import type React from "react";
 
 import { Sidebar, SidebarContent, SidebarFooter, SidebarGroup, SidebarGroupContent, SidebarGroupLabel, SidebarHeader, SidebarInset, SidebarMenu, SidebarMenuButton, SidebarMenuItem, SidebarProvider, SidebarRail, SidebarSeparator, SidebarTrigger } from "@/components/ui/sidebar";
 import { TooltipProvider } from "@/components/ui/tooltip";
+import { signOut } from "@/services/auth";
 
 const presenceItems = [
   { title: "Dashboard", href: "/Employee/Dashboard", icon: LayoutDashboard },
@@ -39,6 +40,12 @@ function SidebarLink({ active, href, icon: Icon, title }: { active: boolean; hre
 
 export default function EmployeeLayout({ children }: { children: React.ReactNode }) {
   const pathname = usePathname();
+  const router = useRouter();
+
+  async function handleLogout() {
+    await signOut();
+    router.push("/Auth/Login");
+  }
 
   return (
     <TooltipProvider>
@@ -68,7 +75,7 @@ export default function EmployeeLayout({ children }: { children: React.ReactNode
               </div>
               <p className="mt-2 text-xs leading-5 text-zinc-500">Use camera check-in and review your own attendance records.</p>
             </div>
-            <SidebarMenu><SidebarMenuItem><SidebarMenuButton asChild tooltip="Logout" className="h-10 justify-start rounded-xl px-3 text-zinc-500 hover:bg-red-400/10 hover:text-red-200 group-data-[collapsible=icon]:mx-auto group-data-[collapsible=icon]:size-10 group-data-[collapsible=icon]:justify-center group-data-[collapsible=icon]:px-0"><Link href="/Auth/Login"><LogOut className="size-4" /><span className="font-medium">Logout</span></Link></SidebarMenuButton></SidebarMenuItem></SidebarMenu>
+            <SidebarMenu><SidebarMenuItem><SidebarMenuButton asChild tooltip="Logout" className="h-10 justify-start rounded-xl px-3 text-zinc-500 hover:bg-red-400/10 hover:text-red-200 group-data-[collapsible=icon]:mx-auto group-data-[collapsible=icon]:size-10 group-data-[collapsible=icon]:justify-center group-data-[collapsible=icon]:px-0"><button onClick={() => void handleLogout()} type="button"><LogOut className="size-4" /><span className="font-medium">Logout</span></button></SidebarMenuButton></SidebarMenuItem></SidebarMenu>
           </SidebarFooter>
           <SidebarRail />
         </Sidebar>

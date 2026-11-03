@@ -15,10 +15,13 @@ export default function Login() {
     const [email, setEmail] = useState("");
     const [password, setPassword] = useState("");
     const [error, setError] = useState<string | null>(null);
+    const [isSubmitting, setIsSubmitting] = useState(false);
 
     const handleSubmit = async (e: React.FormEvent) => {
         e.preventDefault();
+        if (isSubmitting) return;
         setError(null);
+        setIsSubmitting(true);
         try {
             const { data, error } = await signIn(email, password);
             if (error) throw error;
@@ -27,6 +30,8 @@ export default function Login() {
 
         } catch (error) {
             setError(error instanceof Error ? error.message : "Login Failed");
+        } finally {
+            setIsSubmitting(false);
         }
     };
 
@@ -81,8 +86,8 @@ export default function Login() {
                 </label>
                 <a className="font-medium text-emerald-200 hover:text-emerald-100" href="#">Forgot password?</a>
               </div>
-              <motion.button type="submit" className="inline-flex h-12 w-full items-center justify-center gap-2 rounded-lg bg-primary text-sm font-bold text-primary-foreground transition hover:bg-emerald-300" whileHover={shouldReduceMotion ? undefined : { y: -2 }} whileTap={shouldReduceMotion ? undefined : { scale: 0.98 }}>
-                Sign in
+              <motion.button type="submit" disabled={isSubmitting} className="inline-flex h-12 w-full items-center justify-center gap-2 rounded-lg bg-primary text-sm font-bold text-primary-foreground transition hover:bg-emerald-300 disabled:cursor-not-allowed disabled:opacity-60" whileHover={shouldReduceMotion ? undefined : { y: -2 }} whileTap={shouldReduceMotion ? undefined : { scale: 0.98 }}>
+                {isSubmitting ? "Signing in..." : "Sign in"}
                 <ArrowRight className="h-4 w-4" />
               </motion.button>
             </form>

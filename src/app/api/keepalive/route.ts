@@ -34,13 +34,28 @@ export async function GET(request: Request) {
   }
 
   const endpoint = `${supabaseUrl.replace(/\/$/, "")}/rest/v1/companies?select=id&limit=1`;
-  const response = await fetch(endpoint, {
-    cache: "no-store",
-    headers: {
-      apikey: serviceRoleKey,
-      authorization: `Bearer ${serviceRoleKey}`,
-    },
-  });
+
+  let response: Response;
+
+  try {
+    response = await fetch(endpoint, {
+      cache: "no-store",
+      headers: {
+        apikey: serviceRoleKey,
+        authorization: `Bearer ${serviceRoleKey}`,
+      },
+      signal: AbortSignal.timeout(10000),
+    });
+  } catch (error) {
+    return jsonResponse(
+      {
+        ok: false,
+        message: "Supabase keepalive request failed",
+        detail: error instanceof Error ? error.message : "Unknown error",
+      },
+      502
+    );
+  }
 
   if (!response.ok) {
     return jsonResponse(

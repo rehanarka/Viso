@@ -37,10 +37,24 @@ async function postImage<T>(endpoint: string, image: Blob, fields?: Record<strin
       signal: controller.signal,
     });
 
-    const payload = await response.json();
+    const rawBody = await response.text();
+    let payload: unknown = null;
+
+    if (rawBody) {
+      try {
+        payload = JSON.parse(rawBody);
+      } catch {
+        payload = null;
+      }
+    }
 
     if (!response.ok) {
-      throw new Error(payload.detail || "AI service request failed.");
+      const detail = payload && typeof payload === "object" && "detail" in payload ? (payload as { detail?: unknown }).detail : undefined;
+      throw new Error(typeof detail === "string" && detail ? detail : `AI service request failed (${response.status}).`);
+    }
+
+    if (!payload) {
+      throw new Error("AI service returned an empty response.");
     }
 
     return payload as T;

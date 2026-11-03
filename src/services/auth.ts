@@ -75,6 +75,10 @@ export async function claimEmployeeProfile(fullName?: string) {
   }
 }
 
+export async function signOut() {
+  await supabase.auth.signOut();
+}
+
 export async function getSignedInProfile(): Promise<SignedInProfile | null> {
   const { data, error } = await supabase.rpc("get_my_profile");
 
